@@ -118,11 +118,17 @@ export default function HeroSection({ onEnter }: { onEnter: () => void }) {
           className="text-center"
         >
           <h1
-            className="cinematic-title text-[clamp(3rem,12vw,10rem)] leading-none glow-green"
-            style={{ fontFamily: 'var(--font-bebas)' }}
+            className="cinematic-title text-[clamp(3rem,12vw,10rem)] leading-none"
+            style={{
+              fontFamily: 'var(--font-bebas)',
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.6) 50%, rgba(0,255,198,0.8) 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              filter: 'drop-shadow(0 0 40px rgba(0,255,198,0.15))',
+            }}
           >
             You Are Still{' '}
-            <span className="text-accent-green">Becoming</span>
+            <span className="text-accent-green" style={{ WebkitTextFillColor: '#00FFC6' }}>Becoming</span>
           </h1>
         </motion.div>
 

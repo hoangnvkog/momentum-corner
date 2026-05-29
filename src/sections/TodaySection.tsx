@@ -25,7 +25,7 @@ function HudCard({
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ y: -4 }}
-      className={`glass-card p-6 glow-box-cyan ${className}`}
+      className={`glass-card p-5 md:p-6 glow-box-cyan hover:border-white/[0.08] transition-all duration-700 ${className}`}
     >
       <div className="flex items-center gap-3 mb-4">
         <div className="w-1 h-4 rounded-full bg-accent-green/60" />
@@ -320,7 +320,7 @@ export default function TodaySection() {
   const dayCount = getDayCount();
 
   return (
-    <section className="relative py-24 px-6 max-w-6xl mx-auto">
+    <section className="relative py-16 md:py-24 px-4 md:px-6 max-w-6xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -338,7 +338,7 @@ export default function TodaySection() {
         <div className="flex-1 h-px section-divider" />
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {/* Mission */}
         <HudCard title="Current Mission" className="md:col-span-2">
           <p

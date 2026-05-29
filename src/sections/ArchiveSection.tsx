@@ -43,7 +43,7 @@ function TimelineEntry({
       }}
       className="relative group"
     >
-      <div className="flex gap-6">
+      <div className="flex gap-3 md:gap-6">
         <div className="flex flex-col items-center">
           <div
             className="w-3 h-3 rounded-full transition-all duration-500 group-hover:scale-125"
@@ -139,7 +139,7 @@ function TimelineEntry({
    ================================================== */
 export default function ArchiveSection() {
   return (
-    <section className="relative py-24 px-6 max-w-4xl mx-auto">
+    <section className="relative py-16 md:py-24 px-4 md:px-6 max-w-4xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

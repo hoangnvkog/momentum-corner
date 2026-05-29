@@ -26,8 +26,8 @@ function IdentityCard({
         ease: [0.16, 1, 0.3, 1],
         delay: index * 0.12,
       }}
-      className={`p-6 md:p-8 rounded-2xl border border-white/[0.04] 
-        hover:border-white/[0.08] transition-all duration-700 group`}
+      className={`p-5 md:p-8 rounded-2xl border border-white/[0.04] 
+        hover:border-white/[0.1] transition-all duration-700 group bg-white/[0.01] hover:bg-white/[0.02]`}
     >
       <div
         className="w-6 h-px mb-4 transition-all duration-500 group-hover:w-12"
@@ -98,7 +98,7 @@ function PhilosophyBlock() {
    ================================================== */
 export default function FutureSelfSection() {
   return (
-    <section className="relative py-12 px-6 max-w-6xl mx-auto">
+    <section className="relative py-16 md:py-24 px-4 md:px-6 max-w-6xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

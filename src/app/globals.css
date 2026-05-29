@@ -24,6 +24,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-y: scroll;
 }
 
 body {
@@ -33,6 +34,17 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  cursor: default;
+}
+
+/* Hide cursor on touch devices */
+@media (pointer: coarse) {
+  body { cursor: none; }
+}
+
+/* Smooth all transitions on interactive elements */
+a, button, input, textarea {
+  transition: all 0.3s ease;
 }
 
 /* ==================================================
@@ -137,10 +149,10 @@ body {
 .ambient-blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.12;
+  filter: blur(100px);
+  opacity: 0.08;
   pointer-events: none;
-  animation: blobFloat 20s ease-in-out infinite alternate;
+  animation: blobFloat 25s ease-in-out infinite alternate;
 }
 
 @keyframes blobFloat {

@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Volume2, VolumeX, Moon, Sun } from 'lucide-react';
 
 interface Props {
@@ -26,9 +26,8 @@ function AmbientAudio({ isMuted, volume }: { isMuted: boolean; volume: number })
 
   useEffect(() => {
     if (!audioRef.current) return;
-    if (isMuted) {
-      audioRef.current.pause();
-    } else {
+    if (isMuted) audioRef.current.pause();
+    else {
       audioRef.current.play().catch(() => {});
       audioRef.current.volume = Math.max(0, Math.min(1, volume));
     }
@@ -43,6 +42,7 @@ export default function Navigation({ isNight, onToggleNight }: Props) {
   const [volume, setVolume] = useState(0.2);
   const [showVolume, setShowVolume] = useState(false);
   const [activeSection, setActiveSection] = useState('');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,9 +63,9 @@ export default function Navigation({ isNight, onToggleNight }: Props) {
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setMobileMenuOpen(false);
   };
 
-  // NAV LABELS = English (UI chrome, cinematic feel)
   const navItems = [
     { id: 'today', label: 'Today' },
     { id: 'future-self', label: 'Future Self' },
@@ -83,11 +83,12 @@ export default function Navigation({ isNight, onToggleNight }: Props) {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 3 }}
         className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-700 ${
           scrolled
-            ? 'bg-bg-primary/80 backdrop-blur-xl border-b border-white/[0.04]'
+            ? 'bg-bg-primary/90 backdrop-blur-xl border-b border-white/[0.06]'
             : 'bg-transparent'
         }`}
       >
-        <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 h-14 flex items-center justify-between">
+          {/* Logo */}
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="flex items-center gap-2 group"
@@ -102,25 +103,41 @@ export default function Navigation({ isNight, onToggleNight }: Props) {
             </span>
           </button>
 
-          <div className="hidden md:flex items-center gap-6">
+          {/* Desktop nav */}
+          <div className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => scrollTo(item.id)}
-                className={`text-[0.6rem] tracking-[0.2em] uppercase transition-all duration-500
-                  ${
-                    activeSection === item.id
-                      ? 'text-accent-green'
-                      : 'text-white/25 hover:text-white/50'
-                  }`}
+                className="relative text-[0.6rem] tracking-[0.2em] uppercase transition-all duration-500 group"
                 style={{ fontFamily: 'var(--font-space)' }}
               >
-                {item.label}
+                <span className={activeSection === item.id ? 'text-accent-green' : 'text-white/25 group-hover:text-white/50'}>
+                  {item.label}
+                </span>
+                {/* Active underline */}
+                <span
+                  className={`absolute -bottom-1 left-0 h-px bg-accent-green transition-all duration-500 ${
+                    activeSection === item.id ? 'w-full' : 'w-0 group-hover:w-full'
+                  }`}
+                />
               </button>
             ))}
           </div>
 
-          <div className="flex items-center gap-3">
+          {/* Right controls */}
+          <div className="flex items-center gap-2">
+            {/* Mobile menu button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-1.5 rounded-full hover:bg-white/[0.05] transition-colors"
+            >
+              <div className="w-4 h-4 flex flex-col justify-center gap-1">
+                <span className={`block h-px bg-white/40 transition-all ${mobileMenuOpen ? 'rotate-45 translate-y-[3px]' : ''}`} />
+                <span className={`block h-px bg-white/40 transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-[3px]' : ''}`} />
+              </div>
+            </button>
+
             <button
               onClick={onToggleNight}
               className="p-1.5 rounded-full hover:bg-white/[0.05] transition-all duration-300"
@@ -169,6 +186,38 @@ export default function Navigation({ isNight, onToggleNight }: Props) {
             </div>
           </div>
         </div>
+
+        {/* Mobile menu */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden bg-bg-primary/95 backdrop-blur-xl border-t border-white/[0.04]"
+            >
+              <div className="px-6 py-4 flex flex-col gap-4">
+                {navItems.map((item, i) => (
+                  <motion.button
+                    key={item.id}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.08 }}
+                    onClick={() => scrollTo(item.id)}
+                    className={`text-left text-xs tracking-[0.2em] uppercase py-1 transition-colors ${
+                      activeSection === item.id
+                        ? 'text-accent-green'
+                        : 'text-white/30'
+                    }`}
+                    style={{ fontFamily: 'var(--font-space)' }}
+                  >
+                    {item.label}
+                  </motion.button>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.nav>
     </>
   );
