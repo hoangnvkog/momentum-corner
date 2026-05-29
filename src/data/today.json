@@ -1,0 +1,26 @@
+{
+  "currentMission": "Xây dựng Momentum Corner — hệ điều hành điện ảnh cho tâm trí",
+  "dailyFocus": [
+    { "label": "Thiết kế hệ thống", "done": true },
+    { "label": "Trang chủ cinematic", "done": true },
+    { "label": "Bảng điều khiển hôm nay", "done": false },
+    { "label": "Bản thân tương lai", "done": false },
+    { "label": "Phản chiếu đêm", "done": false }
+  ],
+  "habits": [
+    { "name": "Làm việc sâu", "streak": 7, "icon": "🧠" },
+    { "name": "Đọc sách", "streak": 14, "icon": "📖" },
+    { "name": "Tập thể dục", "streak": 3, "icon": "💪" },
+    { "name": "Viết nhật ký", "streak": 5, "icon": "✍️" },
+    { "name": "Thiền", "streak": 10, "icon": "🧘" }
+  ],
+  "energyLevel": 7,
+  "dayCount": 1,
+  "themes": [
+    "city-night",
+    "rain",
+    "ocean",
+    "clouds",
+    "forest"
+  ]
+}

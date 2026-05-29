@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@100;200;300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-bg-primary: #050505;
+  --color-bg-secondary: #0F1115;
+  --color-bg-tertiary: #161B22;
+  --color-accent-cyan: #7FDBFF;
+  --color-accent-purple: #8B5CF6;
+  --color-accent-green: #00FFC6;
+  --color-glow-white: rgba(255, 255, 255, 0.06);
+  --color-glow-cyan: rgba(0, 255, 198, 0.15);
+  --font-heading: 'Bebas Neue', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-alt: 'Space Grotesk', sans-serif;
+}
+
+/* ==================================================
+   CINEMATIC BASE
+   ================================================== */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: #050505;
+  color: #ffffff;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==================================================
+   FILM GRAIN OVERLAY
+   ================================================== */
+.film-grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: overlay;
+  animation: grainShift 0.5s steps(3) infinite;
+}
+
+@keyframes grainShift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-2%, -2%); }
+  50% { transform: translate(1%, 1%); }
+  75% { transform: translate(-1%, 2%); }
+  100% { transform: translate(2%, -1%); }
+}
+
+/* ==================================================
+   VIGNETTE
+   ================================================== */
+.vignette::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%);
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* ==================================================
+   CINEMATIC SCROLLBAR
+   ================================================== */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ==================================================
+   GLOW EFFECTS
+   ================================================== */
+.glow-cyan {
+  text-shadow: 0 0 20px rgba(127, 219, 255, 0.5), 0 0 40px rgba(127, 219, 255, 0.2);
+}
+
+.glow-green {
+  text-shadow: 0 0 20px rgba(0, 255, 198, 0.5), 0 0 40px rgba(0, 255, 198, 0.2);
+}
+
+.glow-box-cyan {
+  box-shadow: 0 0 30px rgba(0, 255, 198, 0.15), 0 0 60px rgba(0, 255, 198, 0.05);
+}
+
+.glow-box-purple {
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.15), 0 0 60px rgba(139, 92, 246, 0.05);
+}
+
+/* ==================================================
+   GLASS CARD
+   ================================================== */
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+}
+
+/* ==================================================
+   CINEMATIC TEXT
+   ================================================== */
+.cinematic-title {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  line-height: 0.9;
+}
+
+/* ==================================================
+   AMBIENT BLOBS (background glow)
+   ================================================== */
+.ambient-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.12;
+  pointer-events: none;
+  animation: blobFloat 20s ease-in-out infinite alternate;
+}
+
+@keyframes blobFloat {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -20px) scale(1.1); }
+  100% { transform: translate(-20px, 30px) scale(0.95); }
+}
+
+/* ==================================================
+   SECTION DIVIDER LINE
+   ================================================== */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+}
+
+/* ==================================================
+   UTILITY
+   ================================================== */
+.text-balance {
+  text-wrap: balance;
+}
+
+/* ==================================================
+   SELECTION
+   ================================================== */
+::selection {
+  background: rgba(0, 255, 198, 0.3);
+  color: #fff;
+}
+
+/* ==================================================
+   PAGE TRANSITIONS
+   ================================================== */
+.page-transition-enter {
+  opacity: 0;
+}
+.page-transition-enter-active {
+  opacity: 1;
+  transition: opacity 800ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.page-transition-exit {
+  opacity: 1;
+}
+.page-transition-exit-active {
+  opacity: 0;
+  transition: opacity 800ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==================================================
+   RESPONSIVE TYPOGRAPHY
+   ================================================== */
+@media (max-width: 640px) {
+  .cinematic-title {
+    letter-spacing: 0.08em;
+  }
+}
+
+/* ==================================================
+   PULSE DOT (for live indicators)
+   ================================================== */
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.pulse-dot {
+  animation: pulseDot 2s ease-in-out infinite;
+}
+
+/* ==================================================
+   TYPING CURSOR
+   ================================================== */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
