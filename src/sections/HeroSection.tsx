@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useMouseParallax } from '@/hooks/useMouseParallax';
+import ParticleField from '@/components/ParticleField';
 
 function AmbientBlobs() {
   return (
@@ -71,6 +72,7 @@ function VideoBackground() {
         transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
       />
 
+      {/* Scanlines */}
       <div
         className="absolute inset-0 opacity-[0.03]"
         style={{
@@ -104,17 +106,18 @@ export default function HeroSection({ onEnter }: { onEnter: () => void }) {
     <section className="relative w-full h-screen overflow-hidden flex items-center justify-center">
       <VideoBackground />
       <AmbientBlobs />
+      <ParticleField count={35} />
       <div className="absolute inset-0 bg-black/40 z-[1]" />
 
       <motion.div
         className="relative z-10 flex flex-col items-center justify-center px-6"
         style={{ x: parallax.x, y: parallax.y }}
       >
-        {/* Main Title — GIỮ TIẾNG ANH để tạo cảm xúc điện ảnh tối đa */}
+        {/* Main Title — gradient cinematic text */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isLoaded ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+          initial={{ opacity: 0, y: 40, scale: 0.97 }}
+          animate={isLoaded ? { opacity: 1, y: 0, scale: 1 } : {}}
+          transition={{ duration: 2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
           className="text-center"
         >
           <h1
@@ -132,7 +135,7 @@ export default function HeroSection({ onEnter }: { onEnter: () => void }) {
           </h1>
         </motion.div>
 
-        {/* Subtitle — tiếng Việt cho nội dung cá nhân */}
+        {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={isLoaded ? { opacity: 1, y: 0 } : {}}
@@ -156,7 +159,7 @@ export default function HeroSection({ onEnter }: { onEnter: () => void }) {
           className="section-divider w-48 mt-8"
         />
 
-        {/* Enter button — GIỮ TIẾNG ANH */}
+        {/* Enter button */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isLoaded ? { opacity: 1, y: 0 } : {}}
@@ -176,7 +179,6 @@ export default function HeroSection({ onEnter }: { onEnter: () => void }) {
             >
               Enter
             </span>
-
             <div
               className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100
                 transition-opacity duration-700"
@@ -187,7 +189,7 @@ export default function HeroSection({ onEnter }: { onEnter: () => void }) {
           </button>
         </motion.div>
 
-        {/* Scroll hint — GIỮ TIẾNG ANH */}
+        {/* Scroll hint */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={isLoaded ? { opacity: 0.3 } : {}}

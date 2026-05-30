@@ -1,48 +1,21 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Volume2, VolumeX, Moon, Sun } from 'lucide-react';
+import { useAmbientAudio } from '@/hooks/useAmbientAudio';
 
 interface Props {
   isNight: boolean;
   onToggleNight: () => void;
 }
 
-function AmbientAudio({ isMuted, volume }: { isMuted: boolean; volume: number }) {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    const audio = new Audio();
-    audio.loop = true;
-    audio.preload = 'auto';
-    audio.src = 'https://cdn.pixabay.com/audio/2022/03/24/audio_0782345687.mp3';
-    audioRef.current = audio;
-    return () => {
-      audio.pause();
-      audio.src = '';
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!audioRef.current) return;
-    if (isMuted) audioRef.current.pause();
-    else {
-      audioRef.current.play().catch(() => {});
-      audioRef.current.volume = Math.max(0, Math.min(1, volume));
-    }
-  }, [isMuted, volume]);
-
-  return null;
-}
-
 export default function Navigation({ isNight, onToggleNight }: Props) {
   const [scrolled, setScrolled] = useState(false);
-  const [muted, setMuted] = useState(true);
-  const [volume, setVolume] = useState(0.2);
   const [showVolume, setShowVolume] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { toggle, isPlaying, volume, setVolume } = useAmbientAudio();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,8 +48,6 @@ export default function Navigation({ isNight, onToggleNight }: Props) {
 
   return (
     <>
-      <AmbientAudio isMuted={muted} volume={volume} />
-
       <motion.nav
         initial={{ y: -60, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -115,7 +86,6 @@ export default function Navigation({ isNight, onToggleNight }: Props) {
                 <span className={activeSection === item.id ? 'text-accent-green' : 'text-white/25 group-hover:text-white/50'}>
                   {item.label}
                 </span>
-                {/* Active underline */}
                 <span
                   className={`absolute -bottom-1 left-0 h-px bg-accent-green transition-all duration-500 ${
                     activeSection === item.id ? 'w-full' : 'w-0 group-hover:w-full'
@@ -138,6 +108,7 @@ export default function Navigation({ isNight, onToggleNight }: Props) {
               </div>
             </button>
 
+            {/* Night mode toggle */}
             <button
               onClick={onToggleNight}
               className="p-1.5 rounded-full hover:bg-white/[0.05] transition-all duration-300"
@@ -149,22 +120,23 @@ export default function Navigation({ isNight, onToggleNight }: Props) {
               )}
             </button>
 
+            {/* Sound toggle */}
             <div className="relative">
               <button
-                onClick={() => setMuted(!muted)}
+                onClick={toggle}
                 onMouseEnter={() => setShowVolume(true)}
                 onMouseLeave={() => setShowVolume(false)}
                 className="p-1.5 rounded-full hover:bg-white/[0.05] transition-all duration-300"
               >
-                {muted ? (
-                  <VolumeX className="w-4 h-4 text-white/30 hover:text-white/60 transition-colors" />
+                {isPlaying ? (
+                  <Volume2 className="w-4 h-4 text-accent-green/60 hover:text-accent-green transition-colors" />
                 ) : (
-                  <Volume2 className="w-4 h-4 text-white/30 hover:text-white/60 transition-colors" />
+                  <VolumeX className="w-4 h-4 text-white/30 hover:text-white/60 transition-colors" />
                 )}
               </button>
 
               <AnimatePresence>
-                {showVolume && !muted && (
+                {showVolume && isPlaying && (
                   <motion.div
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}

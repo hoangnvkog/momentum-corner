@@ -1,32 +1,50 @@
 [
   {
     "date": "2026-05-29",
-    "title": "Beginning the Journey",
-    "content": "Today I started building something meaningful. Not for anyone else — for the person I'm becoming. Momentum Corner is not just a website. It's a promise to myself.",
+    "title": "Khởi Đầu Momentum Corner",
+    "content": "Hôm nay tao bắt đầu xây một thứ không dành cho ai khác — dành cho chính tao. Momentum Corner không phải website. Nó là lời hứa với bản thân.",
     "type": "milestone"
   },
   {
     "date": "2026-05-25",
-    "title": "The Decision",
-    "content": "Decided to stop drifting. I want a place that grounds me, motivates me, and reminds me who I am. A digital sanctuary that makes me pause before I scroll.",
+    "title": "Quyết Định Ngừng Trôi Dạt",
+    "content": "Tao muốn một nơi để grounding, để nhắc nhở tao là ai. Một góc số làm tao pause trước khi scroll. Một nơi thuộc về tao.",
     "type": "reflection"
   },
   {
     "date": "2026-05-20",
-    "title": "What I've Learned",
-    "content": "The most important skill is consistency. Everything else is noise. Build every day, even if it's imperfect. Show up.",
+    "title": "Bài Học Quan Trọng Nhất",
+    "content": "Kỹ năng quan trọng nhất là consistency. Mọi thứ khác là noise. Xây mỗi ngày, dù imperfect. Show up.",
     "type": "lesson"
   },
   {
     "date": "2026-05-15",
-    "title": "Small Win",
-    "content": "Finished a project I'd been procrastinating on. Felt that rush of completion. I want more of this feeling. Momentum is real.",
+    "title": "Chiến Thắng Nhỏ",
+    "content": "Hoàn thành dự án mà tao trì hoãn cả tháng. Cảm giác đó — rush của completion. Tao muốn nhiều hơn. Momentum là có thật.",
     "type": "milestone"
   },
   {
     "date": "2026-05-10",
-    "title": "A Hard Truth",
-    "content": "I've been confusing motion with progress. Being busy is not the same as being effective. Time to cut the noise.",
+    "title": "Sự Thật Khó Chấp Nhận",
+    "content": "Tao đang nhầm lẫn giữa motion và progress. Busy không có nghĩa là effective. Time to cut the noise.",
     "type": "reflection"
+  },
+  {
+    "date": "2026-05-05",
+    "title": "Về Sự Cô Đơn",
+    "content": "Xây dựng một mình là cô đơn. Nhưng cô đơn đó dạy tao nhiều hơn bất kỳ đám đông nào. Learn to love it.",
+    "type": "lesson"
+  },
+  {
+    "date": "2026-05-01",
+    "title": "Ngày Mới, Quy Tắc Mới",
+    "content": "Không còn thức khuya vô nghĩa. Không còn scroll không mục đích. Mỗi giờ đều có ý định. Tao kiểm soát được time của tao.",
+    "type": "milestone"
+  },
+  {
+    "date": "2026-04-25",
+    "title": "Đọc Một Câu Thay Đổi Mọi Thứ",
+    "content": "\"You don't rise to the level of your goals. You fall to the level of your systems.\" — James Clear. Từ giờ, focus vào hệ thống, không phải mục tiêu.",
+    "type": "lesson"
   }
 ]
