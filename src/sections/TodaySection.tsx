@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import todayData from '@/data/today.json';
 import quotes from '@/data/quotes.json';
 import { useRandomQuote } from '@/hooks/useRandomQuote';
+import { useTheme } from '@/contexts/ThemeContext';
 
 /* ==================================================
    HUD CARD
@@ -18,6 +19,8 @@ function HudCard({
   children: React.ReactNode;
   className?: string;
 }) {
+  const theme = useTheme();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -26,13 +29,17 @@ function HudCard({
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ y: -4 }}
       className={`glass-card p-5 md:p-6 glow-box-cyan hover:border-white/[0.08] transition-all duration-700 ${className}`}
+      style={{
+        background: theme.bgCard,
+        borderColor: theme.borderPrimary,
+      }}
     >
       <div className="flex items-center gap-3 mb-4">
         <div className="w-1 h-4 rounded-full bg-accent-green/60" />
         <h3
           className="text-xs tracking-[0.25em] uppercase"
           style={{
-            color: 'rgba(255,255,255,0.4)',
+            color: theme.textMuted,
             fontFamily: 'var(--font-space)',
           }}
         >
@@ -58,6 +65,8 @@ function HabitStreak({
   icon: string;
   index: number;
 }) {
+  const theme = useTheme();
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
@@ -70,7 +79,7 @@ function HabitStreak({
         <span className="text-lg">{icon}</span>
         <span
           className="text-sm"
-          style={{ fontFamily: 'var(--font-space)', color: 'rgba(255,255,255,0.7)' }}
+          style={{ fontFamily: 'var(--font-space)', color: theme.textSecondary }}
         >
           {name}
         </span>
@@ -86,7 +95,7 @@ function HabitStreak({
           {streak > 7 && (
             <span
               className="text-xs ml-1"
-              style={{ color: 'rgba(255,255,255,0.3)' }}
+              style={{ color: theme.textDim }}
             >
               +{streak - 7}
             </span>
@@ -148,6 +157,8 @@ function DailyFocus({ items }: { items: { label: string; done: boolean }[] }) {
    ================================================== */
 function EnergyBar({ level }: { level: number }) {
   const segments = Array.from({ length: 10 }, (_, i) => i < level);
+  const theme = useTheme();
+
   return (
     <div className="flex flex-col gap-2">
       <div className="flex gap-1">
@@ -162,7 +173,7 @@ function EnergyBar({ level }: { level: number }) {
                   : level >= 5
                   ? '#7FDBFF'
                   : '#8B5CF6'
-                : 'rgba(255,255,255,0.06)',
+                : theme.timelineLine,
             }}
           />
         ))}
@@ -170,7 +181,7 @@ function EnergyBar({ level }: { level: number }) {
       <div className="flex justify-between">
         <span
           className="text-[0.6rem] tracking-[0.2em] uppercase"
-          style={{ color: 'rgba(255,255,255,0.2)', fontFamily: 'var(--font-space)' }}
+          style={{ color: theme.textFaint, fontFamily: 'var(--font-space)' }}
         >
           Năng lượng
         </span>
@@ -195,6 +206,7 @@ function FocusTimer() {
   const [time, setTime] = useState(25 * 60);
   const [isRunning, setIsRunning] = useState(false);
   const [mode, setMode] = useState<'focus' | 'break'>('focus');
+  const theme = useTheme();
 
   useEffect(() => {
     if (!isRunning) return;
@@ -244,7 +256,7 @@ function FocusTimer() {
             cy="60"
             r="54"
             fill="none"
-            stroke="rgba(255,255,255,0.04)"
+            stroke={theme.timelineLine}
             strokeWidth="2"
           />
           <circle
@@ -309,6 +321,7 @@ function FocusTimer() {
 export default function TodaySection() {
   const { quote, fade } = useRandomQuote(quotes);
   const today = todayData;
+  const theme = useTheme();
 
   const getDayCount = () => {
     const start = new Date('2026-05-29');
@@ -320,7 +333,7 @@ export default function TodaySection() {
   const dayCount = getDayCount();
 
   return (
-    <section className="relative py-16 md:py-24 px-4 md:px-6 max-w-6xl mx-auto">
+    <section className="relative py-16 md:py-24 px-4 md:px-6 max-w-6xl mx-auto" style={{ background: theme.bgSection }}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -335,7 +348,7 @@ export default function TodaySection() {
         >
           Today
         </h2>
-        <div className="flex-1 h-px section-divider" />
+        <div className="flex-1 h-px" style={{ background: `linear-gradient(90deg, transparent, ${theme.divider}, transparent)` }} />
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
@@ -344,7 +357,7 @@ export default function TodaySection() {
           <p
             className="text-lg leading-relaxed"
             style={{
-              color: 'rgba(255,255,255,0.6)',
+              color: theme.textSecondary,
               fontFamily: 'var(--font-space)',
             }}
           >
@@ -354,7 +367,7 @@ export default function TodaySection() {
             <div className="w-1.5 h-1.5 rounded-full bg-accent-green pulse-dot" />
             <span
               className="text-xs tracking-[0.15em]"
-              style={{ color: 'rgba(255,255,255,0.25)', fontFamily: 'var(--font-space)' }}
+              style={{ color: theme.textDim, fontFamily: 'var(--font-space)' }}
             >
               Ngày {String(dayCount).padStart(3, '0')}
             </span>
@@ -404,7 +417,7 @@ export default function TodaySection() {
             className="text-center text-lg md:text-xl italic"
             style={{
               fontFamily: 'var(--font-space)',
-              color: 'rgba(255,255,255,0.5)',
+              color: theme.textMuted,
             }}
           >
             &ldquo;{quote}&rdquo;

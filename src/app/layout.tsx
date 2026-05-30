@@ -40,7 +40,7 @@ export default function RootLayout({
       lang="vi"
       className={`${bebas.variable} ${inter.variable} ${spaceGrotesk.variable}`}
     >
-      <body className="min-h-full bg-bg-primary text-white film-grain vignette">
+      <body className="min-h-full bg-bg-primary text-white film-grain vignette" style={{ transition: 'background-color 1s ease' }}>
         {children}
       </body>
     </html>

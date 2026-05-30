@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useMouseParallax } from '@/hooks/useMouseParallax';
 import ParticleField from '@/components/ParticleField';
+import { useTheme } from '@/contexts/ThemeContext';
 
 function AmbientBlobs() {
   return (
@@ -45,16 +46,26 @@ function AmbientBlobs() {
 }
 
 function VideoBackground() {
+  const theme = useTheme();
+  const isDark = theme.textPrimary.startsWith('rgba(255');
+
   return (
     <div className="absolute inset-0 z-0">
       <div
         className="absolute inset-0"
         style={{
-          background: `
+          background: isDark
+            ? `
             radial-gradient(ellipse at 20% 50%, rgba(15, 17, 21, 0.8) 0%, transparent 50%),
             radial-gradient(ellipse at 80% 20%, rgba(22, 27, 34, 0.6) 0%, transparent 50%),
             radial-gradient(ellipse at 50% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
             linear-gradient(180deg, #050505 0%, #0F1115 50%, #050505 100%)
+          `
+            : `
+            radial-gradient(ellipse at 20% 50%, rgba(240, 240, 240, 0.5) 0%, transparent 50%),
+            radial-gradient(ellipse at 80% 20%, rgba(235, 235, 235, 0.4) 0%, transparent 50%),
+            radial-gradient(ellipse at 50% 80%, rgba(139, 92, 246, 0.03) 0%, transparent 50%),
+            linear-gradient(180deg, #E8E8E8 0%, #F0F0F0 50%, #E8E8E8 100%)
           `,
         }}
       />
@@ -62,24 +73,33 @@ function VideoBackground() {
       <motion.div
         className="absolute inset-0 opacity-30"
         animate={{
-          background: [
-            'radial-gradient(ellipse at 30% 40%, rgba(0, 255, 198, 0.03) 0%, transparent 60%)',
-            'radial-gradient(ellipse at 70% 60%, rgba(127, 219, 255, 0.03) 0%, transparent 60%)',
-            'radial-gradient(ellipse at 50% 30%, rgba(139, 92, 246, 0.03) 0%, transparent 60%)',
-            'radial-gradient(ellipse at 30% 40%, rgba(0, 255, 198, 0.03) 0%, transparent 60%)',
-          ],
+          background: isDark
+            ? [
+                'radial-gradient(ellipse at 30% 40%, rgba(0, 255, 198, 0.03) 0%, transparent 60%)',
+                'radial-gradient(ellipse at 70% 60%, rgba(127, 219, 255, 0.03) 0%, transparent 60%)',
+                'radial-gradient(ellipse at 50% 30%, rgba(139, 92, 246, 0.03) 0%, transparent 60%)',
+                'radial-gradient(ellipse at 30% 40%, rgba(0, 255, 198, 0.03) 0%, transparent 60%)',
+              ]
+            : [
+                'radial-gradient(ellipse at 30% 40%, rgba(0, 184, 148, 0.04) 0%, transparent 60%)',
+                'radial-gradient(ellipse at 70% 60%, rgba(100, 180, 220, 0.04) 0%, transparent 60%)',
+                'radial-gradient(ellipse at 50% 30%, rgba(139, 92, 246, 0.02) 0%, transparent 60%)',
+                'radial-gradient(ellipse at 30% 40%, rgba(0, 184, 148, 0.04) 0%, transparent 60%)',
+              ],
         }}
         transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
       />
 
-      {/* Scanlines */}
-      <div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage:
-            'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.3) 2px, rgba(0,0,0,0.3) 4px)',
-        }}
-      />
+      {/* Scanlines - only in dark mode */}
+      {isDark && (
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.3) 2px, rgba(0,0,0,0.3) 4px)',
+          }}
+        />
+      )}
     </div>
   );
 }
@@ -87,6 +107,8 @@ function VideoBackground() {
 export default function HeroSection({ onEnter }: { onEnter: () => void }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const parallax = useMouseParallax(0.015);
+  const theme = useTheme();
+  const isDark = theme.textPrimary.startsWith('rgba(255');
 
   useEffect(() => {
     const t = setTimeout(() => setIsLoaded(true), 300);
@@ -107,7 +129,7 @@ export default function HeroSection({ onEnter }: { onEnter: () => void }) {
       <VideoBackground />
       <AmbientBlobs />
       <ParticleField count={35} />
-      <div className="absolute inset-0 bg-black/40 z-[1]" />
+      <div className={`absolute inset-0 z-[1] ${isDark ? 'bg-black/40' : 'bg-white/20'}`} />
 
       <motion.div
         className="relative z-10 flex flex-col items-center justify-center px-6"
@@ -124,7 +146,7 @@ export default function HeroSection({ onEnter }: { onEnter: () => void }) {
             className="cinematic-title text-[clamp(3rem,12vw,10rem)] leading-none"
             style={{
               fontFamily: 'var(--font-bebas)',
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.6) 50%, rgba(0,255,198,0.8) 100%)',
+              background: `linear-gradient(135deg, ${theme.gradientTitleStart} 0%, ${theme.gradientTitleMid} 50%, ${theme.gradientTitleEnd} 100%)`,
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               filter: 'drop-shadow(0 0 40px rgba(0,255,198,0.15))',
@@ -144,7 +166,7 @@ export default function HeroSection({ onEnter }: { onEnter: () => void }) {
           style={{
             fontFamily: 'var(--font-space)',
             fontSize: 'clamp(0.8rem, 1.5vw, 1.1rem)',
-            color: 'rgba(255,255,255,0.45)',
+            color: theme.textMuted,
             letterSpacing: '0.15em',
           }}
         >
@@ -168,13 +190,14 @@ export default function HeroSection({ onEnter }: { onEnter: () => void }) {
         >
           <button
             onClick={onEnter}
-            className="group relative px-10 py-3 rounded-full border border-white/10
+            className={`group relative px-10 py-3 rounded-full border 
               hover:border-accent-green/40 transition-all duration-500
-              bg-white/[0.02] hover:bg-accent-green/[0.05]"
+              ${isDark ? 'border-white/10 bg-white/[0.02]' : 'border-black/10 bg-black/[0.02]'}
+              hover:bg-accent-green/[0.05]`}
           >
             <span
-              className="text-sm tracking-[0.3em] uppercase transition-colors duration-500
-                text-white/50 group-hover:text-accent-green"
+              className={`text-sm tracking-[0.3em] uppercase transition-colors duration-500
+                ${isDark ? 'text-white/50' : 'text-black/50'} group-hover:text-accent-green`}
               style={{ fontFamily: 'var(--font-space)' }}
             >
               Enter
@@ -198,14 +221,14 @@ export default function HeroSection({ onEnter }: { onEnter: () => void }) {
         >
           <span
             className="text-[0.6rem] tracking-[0.3em] uppercase"
-            style={{ color: 'rgba(255,255,255,0.25)', fontFamily: 'var(--font-space)' }}
+            style={{ color: theme.textDim, fontFamily: 'var(--font-space)' }}
           >
             Scroll
           </span>
           <motion.div
             animate={{ y: [0, 6, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            className="w-px h-6 bg-white/20"
+            className={`w-px h-6 ${isDark ? 'bg-white/20' : 'bg-black/20'}`}
           />
         </motion.div>
       </motion.div>
@@ -213,7 +236,9 @@ export default function HeroSection({ onEnter }: { onEnter: () => void }) {
       <div
         className="absolute bottom-0 left-0 right-0 h-40 z-[2] pointer-events-none"
         style={{
-          background: 'linear-gradient(to top, #050505, transparent)',
+          background: isDark
+            ? 'linear-gradient(to top, #050505, transparent)'
+            : 'linear-gradient(to top, #F5F5F5, transparent)',
         }}
       />
     </section>

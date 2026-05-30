@@ -2,11 +2,13 @@
 
 import { motion } from 'framer-motion';
 import { useState, useRef, useEffect } from 'react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 /* ==================================================
    RAIN OVERLAY
    ================================================== */
 function RainOverlay() {
+  const theme = useTheme();
   const drops = Array.from({ length: 40 }, (_, i) => ({
     id: i,
     left: Math.random() * 100,
@@ -79,6 +81,7 @@ function JournalEntry() {
   const [wordCount, setWordCount] = useState(0);
   const [cursorVisible, setCursorVisible] = useState(true);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const theme = useTheme();
 
   useEffect(() => {
     const t = setInterval(() => setCursorVisible((p) => !p), 530);
@@ -114,14 +117,20 @@ function JournalEntry() {
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Hôm nay dạy mày điều gì..."
-          className="w-full h-40 md:h-48 bg-transparent border border-white/[0.06] rounded-2xl
+          className="w-full h-40 md:h-48 bg-transparent border rounded-2xl
             px-6 py-5 text-base leading-relaxed resize-none
-            focus:outline-none focus:border-accent-green/[0.15] transition-all duration-500
-            placeholder:text-white/15"
+            focus:outline-none transition-all duration-500"
           style={{
             fontFamily: 'var(--font-space)',
-            color: 'rgba(255,255,255,0.55)',
+            color: theme.textSecondary,
             caretColor: '#00FFC6',
+            borderColor: theme.inputBorder,
+          }}
+          onFocus={(e) => {
+            e.target.style.borderColor = theme.inputBorderFocus;
+          }}
+          onBlur={(e) => {
+            e.target.style.borderColor = theme.inputBorder;
           }}
         />
 
@@ -138,13 +147,13 @@ function JournalEntry() {
         <div className="flex items-center gap-4">
           <span
             className="text-[0.6rem] tracking-[0.2em] uppercase"
-            style={{ color: 'rgba(255,255,255,0.15)', fontFamily: 'var(--font-space)' }}
+            style={{ color: theme.textFaint, fontFamily: 'var(--font-space)' }}
           >
             {wordCount} words
           </span>
           <span
             className="text-[0.6rem] tracking-[0.2em] uppercase"
-            style={{ color: 'rgba(255,255,255,0.15)', fontFamily: 'var(--font-space)' }}
+            style={{ color: theme.textFaint, fontFamily: 'var(--font-space)' }}
           >
             {new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
           </span>
@@ -166,10 +175,14 @@ function JournalEntry() {
             onClick={save}
             disabled={!text.trim()}
             className="px-6 py-2 rounded-full text-[0.65rem] tracking-[0.25em] uppercase
-              border border-white/[0.06] transition-all duration-500
+              border transition-all duration-500
               disabled:opacity-20 disabled:cursor-not-allowed
               hover:border-accent-green/30 hover:text-accent-green hover:bg-accent-green/[0.03]"
-            style={{ fontFamily: 'var(--font-space)', color: 'rgba(255,255,255,0.3)' }}
+            style={{ 
+              fontFamily: 'var(--font-space)', 
+              color: theme.textDim,
+              borderColor: theme.borderSubtle,
+            }}
           >
             Release
           </button>
@@ -184,6 +197,7 @@ function JournalEntry() {
    ================================================== */
 function PreviousEntries() {
   const [entries, setEntries] = useState<Array<{ date: string; text: string; words: number }>>([]);
+  const theme = useTheme();
 
   useEffect(() => {
     try {
@@ -196,10 +210,10 @@ function PreviousEntries() {
 
   return (
     <div className="mt-16 w-full max-w-2xl mx-auto">
-      <div className="section-divider mb-6" />
+      <div className="w-full h-px mb-6" style={{ background: `linear-gradient(90deg, transparent, ${theme.divider}, transparent)` }} />
       <h4
         className="text-[0.6rem] tracking-[0.25em] uppercase mb-4"
-        style={{ color: 'rgba(255,255,255,0.15)', fontFamily: 'var(--font-space)' }}
+        style={{ color: theme.textFaint, fontFamily: 'var(--font-space)' }}
       >
         Previous echoes
       </h4>
@@ -211,12 +225,21 @@ function PreviousEntries() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: i * 0.1 }}
-            className="p-4 rounded-xl border border-white/[0.03] hover:border-white/[0.06] transition-colors"
+            className="p-4 rounded-xl border transition-colors"
+            style={{
+              borderColor: theme.borderSubtle,
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.borderColor = theme.borderHover;
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.borderColor = theme.borderSubtle;
+            }}
           >
             <div className="flex items-center justify-between mb-2">
               <span
                 className="text-[0.55rem] tracking-[0.2em] uppercase"
-                style={{ color: 'rgba(255,255,255,0.15)', fontFamily: 'var(--font-space)' }}
+                style={{ color: theme.textFaint, fontFamily: 'var(--font-space)' }}
               >
                 {new Date(entry.date).toLocaleDateString('en-US', {
                   month: 'short',
@@ -226,14 +249,14 @@ function PreviousEntries() {
               </span>
               <span
                 className="text-[0.55rem] tracking-[0.15em]"
-                style={{ color: 'rgba(255,255,255,0.1)', fontFamily: 'var(--font-space)' }}
+                style={{ color: theme.textUltraFaint, fontFamily: 'var(--font-space)' }}
               >
                 {entry.words}w
               </span>
             </div>
             <p
               className="text-sm leading-relaxed line-clamp-2"
-              style={{ color: 'rgba(255,255,255,0.2)', fontFamily: 'var(--font-space)' }}
+              style={{ color: theme.textDim, fontFamily: 'var(--font-space)' }}
             >
               {entry.text}
             </p>
@@ -248,8 +271,10 @@ function PreviousEntries() {
    NIGHT REFLECTION SECTION — English chrome title, Vietnamese soul
    ================================================== */
 export default function NightReflectionSection() {
+  const theme = useTheme();
+
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-24 bg-black">
+    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-24" style={{ background: theme.bgSection }}>
       <RainOverlay />
 
       <div
@@ -275,7 +300,7 @@ export default function NightReflectionSection() {
           className="cinematic-title text-4xl md:text-5xl tracking-[0.15em]"
           style={{
             fontFamily: 'var(--font-bebas)',
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.5), rgba(255,255,255,0.15))',
+            background: `linear-gradient(135deg, ${theme.gradientNightTitleStart}, ${theme.gradientNightTitleEnd})`,
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
           }}
@@ -285,7 +310,7 @@ export default function NightReflectionSection() {
         <p
           className="mt-3 text-sm"
           style={{
-            color: 'rgba(255,255,255,0.2)',
+            color: theme.textFaint,
             fontFamily: 'var(--font-space)',
           }}
         >
@@ -312,7 +337,7 @@ export default function NightReflectionSection() {
         transition={{ duration: 1.5, delay: 0.8 }}
         className="mt-20 text-center text-xs tracking-[0.2em]"
         style={{
-          color: 'rgba(255,255,255,0.1)',
+          color: theme.textUltraFaint,
           fontFamily: 'var(--font-space)',
         }}
       >

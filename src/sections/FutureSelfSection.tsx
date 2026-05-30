@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import principles from '@/data/principles.json';
+import { useTheme } from '@/contexts/ThemeContext';
 
 /* ==================================================
    IDENTITY CARD
@@ -15,6 +16,7 @@ function IdentityCard({
 }) {
   const isLarge = index % 4 === 0;
   const isAccent = index % 3 === 0;
+  const theme = useTheme();
 
   return (
     <motion.div
@@ -26,15 +28,24 @@ function IdentityCard({
         ease: [0.16, 1, 0.3, 1],
         delay: index * 0.12,
       }}
-      className={`p-5 md:p-8 rounded-2xl border border-white/[0.04] 
-        hover:border-white/[0.1] transition-all duration-700 group bg-white/[0.01] hover:bg-white/[0.02]`}
+      className={`p-5 md:p-8 rounded-2xl border transition-all duration-700 group hover:bg-white/[0.02]`}
+      style={{
+        borderColor: theme.borderSubtle,
+        backgroundColor: theme.bgCard,
+      }}
+      onMouseEnter={(e) => {
+        (e.currentTarget as HTMLElement).style.borderColor = theme.borderHover;
+      }}
+      onMouseLeave={(e) => {
+        (e.currentTarget as HTMLElement).style.borderColor = theme.borderSubtle;
+      }}
     >
       <div
         className="w-6 h-px mb-4 transition-all duration-500 group-hover:w-12"
         style={{
           backgroundColor: isAccent
             ? '#00FFC6'
-            : 'rgba(255,255,255,0.15)',
+            : theme.textFaint,
         }}
       />
 
@@ -45,10 +56,13 @@ function IdentityCard({
             : 'text-base md:text-lg'
         } ${
           isAccent
-            ? 'text-white/70 group-hover:text-accent-green/80'
-            : 'text-white/40 group-hover:text-white/60'
+            ? 'group-hover:text-accent-green/80'
+            : 'group-hover:text-opacity-60'
         }`}
-        style={{ fontFamily: 'var(--font-space)' }}
+        style={{ 
+          fontFamily: 'var(--font-space)',
+          color: isAccent ? theme.textSecondary : theme.textMuted,
+        }}
       >
         {principle}
       </p>
@@ -60,6 +74,8 @@ function IdentityCard({
    PHILOSOPHY BLOCK
    ================================================== */
 function PhilosophyBlock() {
+  const theme = useTheme();
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -72,7 +88,7 @@ function PhilosophyBlock() {
         className="cinematic-title text-[clamp(2rem,6vw,5rem)] leading-none"
         style={{
           fontFamily: 'var(--font-bebas)',
-          background: 'linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.2))',
+          background: `linear-gradient(135deg, ${theme.gradientPhilosophyStart}, ${theme.gradientPhilosophyEnd})`,
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           letterSpacing: '0.12em',
@@ -83,7 +99,7 @@ function PhilosophyBlock() {
       <p
         className="mt-6 text-sm tracking-[0.2em] uppercase"
         style={{
-          color: 'rgba(255,255,255,0.25)',
+          color: theme.textDim,
           fontFamily: 'var(--font-space)',
         }}
       >
@@ -97,8 +113,10 @@ function PhilosophyBlock() {
    FUTURE SELF SECTION
    ================================================== */
 export default function FutureSelfSection() {
+  const theme = useTheme();
+
   return (
-    <section className="relative py-16 md:py-24 px-4 md:px-6 max-w-6xl mx-auto">
+    <section className="relative py-16 md:py-24 px-4 md:px-6 max-w-6xl mx-auto" style={{ background: theme.bgSection }}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -106,14 +124,14 @@ export default function FutureSelfSection() {
         transition={{ duration: 0.6 }}
         className="flex items-center gap-4 mb-4"
       >
-        <div className="w-8 h-px bg-white/15" />
+        <div className="w-8 h-px" style={{ backgroundColor: theme.textFaint }} />
         <h2
           className="cinematic-title text-3xl tracking-[0.15em]"
           style={{ fontFamily: 'var(--font-bebas)' }}
         >
           Bản Thân Tương Lai
         </h2>
-        <div className="flex-1 h-px section-divider" />
+        <div className="flex-1 h-px" style={{ background: `linear-gradient(90deg, transparent, ${theme.divider}, transparent)` }} />
       </motion.div>
 
       <PhilosophyBlock />
@@ -142,7 +160,7 @@ export default function FutureSelfSection() {
         transition={{ duration: 1.5, delay: 0.5 }}
         className="mt-24 pb-12 text-center"
       >
-        <div className="section-divider w-full mb-8" />
+        <div className="w-full h-px mb-8" style={{ background: `linear-gradient(90deg, transparent, ${theme.divider}, transparent)` }} />
         <p
           className="text-sm tracking-[0.25em] uppercase"
           style={{

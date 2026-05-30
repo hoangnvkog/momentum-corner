@@ -16,6 +16,91 @@
 }
 
 /* ==================================================
+   THEME CSS VARIABLES (light / dark)
+   ================================================== */
+:root {
+  /* === DARK THEME (default) === */
+  --bg-page: #050505;
+  --bg-section: #0F1115;
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --bg-card-hover: rgba(255, 255, 255, 0.06);
+  --bg-elevated: rgba(255, 255, 255, 0.08);
+  --border-primary: rgba(255, 255, 255, 0.06);
+  --border-hover: rgba(255, 255, 255, 0.12);
+  --border-subtle: rgba(255, 255, 255, 0.04);
+  --text-primary: rgba(255, 255, 255, 0.9);
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --text-muted: rgba(255, 255, 255, 0.4);
+  --text-dim: rgba(255, 255, 255, 0.25);
+  --text-faint: rgba(255, 255, 255, 0.15);
+  --text-ultra-faint: rgba(255, 255, 255, 0.1);
+  --divider: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+  --scrollbar-track: #050505;
+  --scrollbar-thumb: rgba(255, 255, 255, 0.15);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.25);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --placeholder: rgba(255, 255, 255, 0.15);
+  --nav-bg: rgba(5, 5, 5, 0.9);
+  --nav-border: rgba(255, 255, 255, 0.06);
+  --card-accent-line: #00FFC6;
+  --timeline-line: rgba(255, 255, 255, 0.06);
+  --input-border: rgba(255, 255, 255, 0.06);
+  --input-border-focus: rgba(0, 255, 198, 0.15);
+  --selection-bg: rgba(0, 255, 198, 0.3);
+  --selection-color: #fff;
+  --intro-bg: #000;
+  --gradient-title-start: rgba(255, 255, 255, 0.95);
+  --gradient-title-mid: rgba(255, 255, 255, 0.6);
+  --gradient-title-end: rgba(0, 255, 198, 0.8);
+  --gradient-philosophy-start: rgba(255, 255, 255, 0.8);
+  --gradient-philosophy-end: rgba(255, 255, 255, 0.2);
+  --gradient-night-title-start: rgba(255, 255, 255, 0.5);
+  --gradient-night-title-end: rgba(255, 255, 255, 0.15);
+}
+
+/* === LIGHT THEME === */
+.is-light {
+  --bg-page: #FAFAFA;
+  --bg-section: #F0F0F0;
+  --bg-card: rgba(0, 0, 0, 0.02);
+  --bg-card-hover: rgba(0, 0, 0, 0.04);
+  --bg-elevated: rgba(0, 0, 0, 0.06);
+  --border-primary: rgba(0, 0, 0, 0.10);
+  --border-hover: rgba(0, 0, 0, 0.20);
+  --border-subtle: rgba(0, 0, 0, 0.06);
+  --text-primary: rgba(0, 0, 0, 0.9);
+  --text-secondary: rgba(0, 0, 0, 0.6);
+  --text-muted: rgba(0, 0, 0, 0.45);
+  --text-dim: rgba(0, 0, 0, 0.35);
+  --text-faint: rgba(0, 0, 0, 0.2);
+  --text-ultra-faint: rgba(0, 0, 0, 0.1);
+  --divider: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.12), transparent);
+  --scrollbar-track: #F0F0F0;
+  --scrollbar-thumb: rgba(0, 0, 0, 0.2);
+  --scrollbar-thumb-hover: rgba(0, 0, 0, 0.35);
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --placeholder: rgba(0, 0, 0, 0.25);
+  --nav-bg: rgba(250, 250, 250, 0.9);
+  --nav-border: rgba(0, 0, 0, 0.08);
+  --card-accent-line: #00B894;
+  --timeline-line: rgba(0, 0, 0, 0.08);
+  --input-border: rgba(0, 0, 0, 0.10);
+  --input-border-focus: rgba(0, 184, 148, 0.3);
+  --selection-bg: rgba(0, 184, 148, 0.25);
+  --selection-color: #000;
+  --intro-bg: #FAFAFA;
+  --gradient-title-start: rgba(0, 0, 0, 0.9);
+  --gradient-title-mid: rgba(0, 0, 0, 0.6);
+  --gradient-title-end: rgba(0, 184, 148, 0.8);
+  --gradient-philosophy-start: rgba(0, 0, 0, 0.8);
+  --gradient-philosophy-end: rgba(0, 0, 0, 0.3);
+  --gradient-night-title-start: rgba(0, 0, 0, 0.6);
+  --gradient-night-title-end: rgba(0, 0, 0, 0.2);
+}
+
+/* ==================================================
    CINEMATIC BASE
    ================================================== */
 * {
@@ -29,12 +114,13 @@ html {
 
 body {
   font-family: var(--font-body);
-  background: #050505;
-  color: #ffffff;
+  background: var(--bg-page);
+  color: var(--text-primary);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   cursor: default;
+  transition: background 1s ease, color 1s ease;
 }
 
 /* Hide cursor on touch devices */
@@ -91,16 +177,16 @@ a, button, input, textarea {
 }
 
 ::-webkit-scrollbar-track {
-  background: #050505;
+  background: var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: var(--scrollbar-thumb-hover);
 }
 
 /* ==================================================
@@ -126,11 +212,12 @@ a, button, input, textarea {
    GLASS CARD
    ================================================== */
 .glass-card {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--glass-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--glass-border);
   border-radius: 16px;
+  transition: background 0.7s ease, border-color 0.7s ease;
 }
 
 /* ==================================================
@@ -166,7 +253,8 @@ a, button, input, textarea {
    ================================================== */
 .section-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  background: var(--divider);
+  transition: background 1s ease;
 }
 
 /* ==================================================
@@ -180,8 +268,8 @@ a, button, input, textarea {
    SELECTION
    ================================================== */
 ::selection {
-  background: rgba(0, 255, 198, 0.3);
-  color: #fff;
+  background: var(--selection-bg);
+  color: var(--selection-color);
 }
 
 /* ==================================================

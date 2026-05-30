@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import archiveData from '@/data/archive.json';
+import { useTheme } from '@/contexts/ThemeContext';
 
 /* ==================================================
    TIMELINE ENTRY
@@ -15,6 +16,7 @@ function TimelineEntry({
   index: number;
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const theme = useTheme();
 
   const typeColors: Record<string, string> = {
     milestone: '#00FFC6',
@@ -55,7 +57,7 @@ function TimelineEntry({
           {index < archiveData.length - 1 && (
             <div
               className="w-px h-full min-h-[80px] mt-2"
-              style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+              style={{ backgroundColor: theme.timelineLine }}
             />
           )}
         </div>
@@ -63,6 +65,10 @@ function TimelineEntry({
         <div className="flex-1 pb-12">
           <div
             className="glass-card p-6 hover:bg-white/[0.04] transition-all duration-500 cursor-pointer"
+            style={{
+              background: theme.bgCard,
+              borderColor: theme.borderPrimary,
+            }}
             onClick={() => setIsExpanded(!isExpanded)}
           >
             <div className="flex items-center justify-between mb-3">
@@ -79,7 +85,7 @@ function TimelineEntry({
                 </span>
                 <span
                   className="text-xs"
-                  style={{ color: 'rgba(255,255,255,0.2)', fontFamily: 'var(--font-space)' }}
+                  style={{ color: theme.textFaint, fontFamily: 'var(--font-space)' }}
                 >
                   {entry.date}
                 </span>
@@ -90,7 +96,7 @@ function TimelineEntry({
               className="text-lg mb-2 transition-colors duration-300"
               style={{
                 fontFamily: 'var(--font-space)',
-                color: 'rgba(255,255,255,0.7)',
+                color: theme.textSecondary,
               }}
             >
               {entry.title}
@@ -101,7 +107,7 @@ function TimelineEntry({
                 isExpanded ? '' : 'line-clamp-2'
               }`}
               style={{
-                color: 'rgba(255,255,255,0.35)',
+                color: theme.textDim,
                 fontFamily: 'var(--font-space)',
               }}
             >
@@ -119,7 +125,7 @@ function TimelineEntry({
                 <span
                   className="text-[0.6rem] tracking-[0.15em]"
                   style={{
-                    color: 'rgba(255,255,255,0.2)',
+                    color: theme.textFaint,
                     fontFamily: 'var(--font-space)',
                   }}
                 >
@@ -138,8 +144,10 @@ function TimelineEntry({
    ARCHIVE SECTION
    ================================================== */
 export default function ArchiveSection() {
+  const theme = useTheme();
+
   return (
-    <section className="relative py-16 md:py-24 px-4 md:px-6 max-w-4xl mx-auto">
+    <section className="relative py-16 md:py-24 px-4 md:px-6 max-w-4xl mx-auto" style={{ background: theme.bgSection }}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -147,14 +155,14 @@ export default function ArchiveSection() {
         transition={{ duration: 0.6 }}
         className="flex items-center gap-4 mb-16"
       >
-        <div className="w-8 h-px bg-white/15" />
+        <div className="w-8 h-px" style={{ backgroundColor: theme.textFaint }} />
         <h2
           className="cinematic-title text-3xl tracking-[0.15em]"
           style={{ fontFamily: 'var(--font-bebas)' }}
         >
           Lưu Trữ
         </h2>
-        <div className="flex-1 h-px section-divider" />
+        <div className="flex-1 h-px" style={{ background: `linear-gradient(90deg, transparent, ${theme.divider}, transparent)` }} />
       </motion.div>
 
       <motion.p
@@ -164,7 +172,7 @@ export default function ArchiveSection() {
         transition={{ duration: 0.8, delay: 0.2 }}
         className="text-sm mb-12 pl-14"
         style={{
-          color: 'rgba(255,255,255,0.25)',
+          color: theme.textDim,
           fontFamily: 'var(--font-space)',
         }}
       >
