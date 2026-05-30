@@ -120,12 +120,14 @@ export default function Navigation({ isNight, onToggleNight }: Props) {
               )}
             </button>
 
-            {/* Sound toggle */}
-            <div className="relative">
+            {/* Sound toggle + volume slider wrapper */}
+            <div
+              className="relative"
+              onMouseEnter={() => setShowVolume(true)}
+              onMouseLeave={() => setShowVolume(false)}
+            >
               <button
                 onClick={toggle}
-                onMouseEnter={() => setShowVolume(true)}
-                onMouseLeave={() => setShowVolume(false)}
                 className="p-1.5 rounded-full hover:bg-white/[0.05] transition-all duration-300"
               >
                 {isPlaying ? (
@@ -136,7 +138,7 @@ export default function Navigation({ isNight, onToggleNight }: Props) {
               </button>
 
               <AnimatePresence>
-                {showVolume && isPlaying && (
+                {showVolume && (
                   <motion.div
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -150,7 +152,7 @@ export default function Navigation({ isNight, onToggleNight }: Props) {
                       step="0.05"
                       value={volume}
                       onChange={(e) => setVolume(parseFloat(e.target.value))}
-                      className="w-20 accent-accent-green"
+                      className="w-24 accent-accent-green cursor-pointer"
                     />
                   </motion.div>
                 )}
