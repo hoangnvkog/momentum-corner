@@ -28,23 +28,27 @@ function IdentityCard({
         ease: [0.16, 1, 0.3, 1],
         delay: index * 0.12,
       }}
-      className={`p-5 md:p-8 rounded-2xl border transition-all duration-700 group hover:bg-white/[0.02]`}
+      className={`p-5 md:p-8 rounded-2xl border transition-all duration-700 group`}
       style={{
         borderColor: theme.borderSubtle,
         backgroundColor: theme.bgCard,
       }}
       onMouseEnter={(e) => {
-        (e.currentTarget as HTMLElement).style.borderColor = theme.borderHover;
+        const el = e.currentTarget as HTMLElement;
+        el.style.borderColor = theme.borderHover;
+        el.style.backgroundColor = theme.bgCardHover;
       }}
       onMouseLeave={(e) => {
-        (e.currentTarget as HTMLElement).style.borderColor = theme.borderSubtle;
+        const el = e.currentTarget as HTMLElement;
+        el.style.borderColor = theme.borderSubtle;
+        el.style.backgroundColor = theme.bgCard;
       }}
     >
       <div
         className="w-6 h-px mb-4 transition-all duration-500 group-hover:w-12"
         style={{
           backgroundColor: isAccent
-            ? '#00FFC6'
+            ? theme.accentGreen
             : theme.textFaint,
         }}
       />
@@ -164,7 +168,7 @@ export default function FutureSelfSection() {
         <p
           className="text-sm tracking-[0.25em] uppercase"
           style={{
-            color: 'rgba(0, 255, 198, 0.35)',
+            color: theme.accentGreen + '59',
             fontFamily: 'var(--font-space)',
           }}
         >

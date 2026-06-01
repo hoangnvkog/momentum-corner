@@ -123,7 +123,7 @@ function JournalEntry() {
           style={{
             fontFamily: 'var(--font-space)',
             color: theme.textSecondary,
-            caretColor: '#00FFC6',
+            caretColor: theme.accentGreen,
             borderColor: theme.inputBorder,
           }}
           onFocus={(e) => {
@@ -138,7 +138,7 @@ function JournalEntry() {
           className={`absolute bottom-5 right-5 w-1.5 h-1.5 rounded-full transition-opacity duration-300 ${
             cursorVisible ? 'opacity-60' : 'opacity-0'
           }`}
-          style={{ backgroundColor: '#00FFC6', boxShadow: '0 0 8px rgba(0,255,198,0.5)' }}
+          style={{ backgroundColor: theme.accentGreen, boxShadow: `0 0 8px ${theme.accentGreen}80` }}
         />
       </div>
 
@@ -174,14 +174,23 @@ function JournalEntry() {
           <button
             onClick={save}
             disabled={!text.trim()}
-            className="px-6 py-2 rounded-full text-[0.65rem] tracking-[0.25em] uppercase
-              border transition-all duration-500
-              disabled:opacity-20 disabled:cursor-not-allowed
-              hover:border-accent-green/30 hover:text-accent-green hover:bg-accent-green/[0.03]"
-            style={{ 
-              fontFamily: 'var(--font-space)', 
+            className="px-6 py-2 rounded-full text-[0.65rem] tracking-[0.25em] uppercase border transition-all duration-500 disabled:opacity-20 disabled:cursor-not-allowed"
+            style={{
+              fontFamily: 'var(--font-space)',
               color: theme.textDim,
               borderColor: theme.borderSubtle,
+            }}
+            onMouseEnter={(e) => {
+              if (text.trim()) {
+                e.currentTarget.style.borderColor = theme.accentGreen + '4d';
+                e.currentTarget.style.color = theme.accentGreen;
+                e.currentTarget.style.backgroundColor = theme.accentGreen + '08';
+              }
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = theme.borderSubtle;
+              e.currentTarget.style.color = theme.textDim;
+              e.currentTarget.style.backgroundColor = 'transparent';
             }}
           >
             Release
@@ -281,7 +290,7 @@ export default function NightReflectionSection() {
         className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px]
           opacity-[0.02] pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, #00FFC6, transparent 70%)',
+          background: `radial-gradient(circle, ${theme.accentGreen}, transparent 70%)`,
           filter: 'blur(120px)',
         }}
       />

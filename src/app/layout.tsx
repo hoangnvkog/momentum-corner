@@ -23,10 +23,20 @@ export const metadata: Metadata = {
   description: "Một góc riêng điện ảnh cho tâm trí. Nơi để phản chiếu, tập trung và giữ nhịp.",
   keywords: ["momentum", "cá nhân", "điện ảnh", "phản chiếu", "trưởng thành"],
   authors: [{ name: "Momentum Corner" }],
+  icons: {
+    icon: '/favicon.svg',
+  },
   openGraph: {
     title: "Momentum Corner",
-    description: "Mày vẫn đang trở thành.",
+    description: "Một góc riêng điện ảnh cho tâm trí. Nơi để phản chiếu, tập trung và giữ nhịp.",
     type: "website",
+    url: "https://momentum-corner.vercel.app",
+    locale: "vi_VN",
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Momentum Corner',
+    description: 'Một góc riêng điện ảnh cho tâm trí.',
   },
 };
 

@@ -19,9 +19,9 @@ function TimelineEntry({
   const theme = useTheme();
 
   const typeColors: Record<string, string> = {
-    milestone: '#00FFC6',
-    reflection: '#7FDBFF',
-    lesson: '#8B5CF6',
+    milestone: theme.accentGreen,
+    reflection: theme.accentCyan,
+    lesson: theme.accentPurple,
   };
 
   const typeLabels: Record<string, string> = {
@@ -64,10 +64,18 @@ function TimelineEntry({
 
         <div className="flex-1 pb-12">
           <div
-            className="glass-card p-6 hover:bg-white/[0.04] transition-all duration-500 cursor-pointer"
+            className="glass-card p-6 transition-all duration-500 cursor-pointer"
             style={{
               background: theme.bgCard,
               borderColor: theme.borderPrimary,
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.backgroundColor = theme.bgCardHover;
+              (e.currentTarget as HTMLElement).style.borderColor = theme.borderHover;
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.backgroundColor = theme.bgCard;
+              (e.currentTarget as HTMLElement).style.borderColor = theme.borderPrimary;
             }}
             onClick={() => setIsExpanded(!isExpanded)}
           >
@@ -183,7 +191,7 @@ export default function ArchiveSection() {
         <div
           className="absolute top-0 left-4 w-px h-full opacity-20"
           style={{
-            background: 'linear-gradient(to bottom, transparent, rgba(0,255,198,0.1), rgba(139,92,246,0.1), transparent)',
+            background: `linear-gradient(to bottom, transparent, ${theme.accentGreen}1a, ${theme.accentPurple}1a, transparent)`,
           }}
         />
 

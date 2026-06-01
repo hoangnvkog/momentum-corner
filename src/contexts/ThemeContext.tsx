@@ -29,6 +29,16 @@ export interface ThemeColors {
   gradientPhilosophyEnd: string;
   gradientNightTitleStart: string;
   gradientNightTitleEnd: string;
+  accentGreen: string;
+  accentCyan: string;
+  accentPurple: string;
+  overlayBg: string;
+  dividerLine: string;
+  scrollHintLine: string;
+  cardHoverBg: string;
+  focusBtnBorder: string;
+  focusBtnBg: string;
+  focusBtnText: string;
 }
 
 export const DARK_COLORS: ThemeColors = {
@@ -58,6 +68,16 @@ export const DARK_COLORS: ThemeColors = {
   gradientPhilosophyEnd: 'rgba(255,255,255,0.2)',
   gradientNightTitleStart: 'rgba(255,255,255,0.5)',
   gradientNightTitleEnd: 'rgba(255,255,255,0.15)',
+  accentGreen: '#00FFC6',
+  accentCyan: '#7FDBFF',
+  accentPurple: '#8B5CF6',
+  overlayBg: 'rgba(0,0,0,0.4)',
+  dividerLine: 'rgba(255,255,255,0.15)',
+  scrollHintLine: 'rgba(255,255,255,0.2)',
+  cardHoverBg: 'rgba(255,255,255,0.04)',
+  focusBtnBorder: 'rgba(255,255,255,0.1)',
+  focusBtnBg: 'rgba(255,255,255,0.02)',
+  focusBtnText: 'rgba(255,255,255,0.5)',
 };
 
 export const LIGHT_COLORS: ThemeColors = {
@@ -87,6 +107,16 @@ export const LIGHT_COLORS: ThemeColors = {
   gradientPhilosophyEnd: 'rgba(0,0,0,0.3)',
   gradientNightTitleStart: 'rgba(0,0,0,0.6)',
   gradientNightTitleEnd: 'rgba(0,0,0,0.2)',
+  accentGreen: '#00B894',
+  accentCyan: '#5DADE2',
+  accentPurple: '#6C3483',
+  overlayBg: 'rgba(255,255,255,0.15)',
+  dividerLine: 'rgba(0,0,0,0.15)',
+  scrollHintLine: 'rgba(0,0,0,0.2)',
+  cardHoverBg: 'rgba(0,0,0,0.04)',
+  focusBtnBorder: 'rgba(0,0,0,0.1)',
+  focusBtnBg: 'rgba(0,0,0,0.02)',
+  focusBtnText: 'rgba(0,0,0,0.5)',
 };
 
 export const ThemeContext = createContext<ThemeColors>(DARK_COLORS);

@@ -28,14 +28,14 @@ function HudCard({
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ y: -4 }}
-      className={`glass-card p-5 md:p-6 glow-box-cyan hover:border-white/[0.08] transition-all duration-700 ${className}`}
+      className={`glass-card p-5 md:p-6 glow-box-cyan transition-all duration-700 ${className}`}
       style={{
         background: theme.bgCard,
         borderColor: theme.borderPrimary,
       }}
     >
       <div className="flex items-center gap-3 mb-4">
-        <div className="w-1 h-4 rounded-full bg-accent-green/60" />
+        <div className="w-1 h-4 rounded-full" style={{ backgroundColor: theme.accentGreen + '99' }} />
         <h3
           className="text-xs tracking-[0.25em] uppercase"
           style={{
@@ -89,7 +89,8 @@ function HabitStreak({
           {Array.from({ length: Math.min(streak, 7) }).map((_, i) => (
             <div
               key={i}
-              className="w-2 h-2 rounded-full bg-accent-green/60"
+              className="w-2 h-2 rounded-full"
+              style={{ backgroundColor: theme.accentGreen + '99' }}
             />
           ))}
           {streak > 7 && (
@@ -102,8 +103,8 @@ function HabitStreak({
           )}
         </div>
         <span
-          className="text-sm font-semibold text-accent-green/80"
-          style={{ fontFamily: 'var(--font-space)' }}
+          className="text-sm font-semibold"
+          style={{ fontFamily: 'var(--font-space)', color: theme.accentGreen + 'cc' }}
         >
           {streak}
         </span>
@@ -116,33 +117,35 @@ function HabitStreak({
    DAILY FOCUS
    ================================================== */
 function DailyFocus({ items }: { items: { label: string; done: boolean }[] }) {
+  const theme = useTheme();
+
   return (
     <div className="flex flex-col gap-2">
-      {items.map((item, i) => (
+      {items.map((item) => (
         <motion.div
           key={item.label}
           initial={{ opacity: 0, x: -10 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: i * 0.08 }}
-          className={`flex items-center gap-3 py-1.5 px-3 rounded-lg transition-colors ${
-            item.done
-              ? 'bg-accent-green/[0.04]'
-              : 'bg-white/[0.01]'
-          }`}
+          transition={{ duration: 0.4, delay: items.indexOf(item) * 0.08 }}
+          className="flex items-center gap-3 py-1.5 px-3 rounded-lg transition-colors"
+          style={{
+            backgroundColor: item.done ? theme.accentGreen + '0a' : 'transparent',
+          }}
         >
           <div
-            className={`w-2 h-2 rounded-full transition-all ${
-              item.done ? 'bg-accent-green' : 'bg-white/10'
-            }`}
+            className="w-2 h-2 rounded-full transition-all"
+            style={{
+              backgroundColor: item.done ? theme.accentGreen : theme.textUltraFaint,
+            }}
           />
           <span
-            className={`text-sm transition-all ${
-              item.done
-                ? 'line-through text-white/30'
-                : 'text-white/70'
-            }`}
-            style={{ fontFamily: 'var(--font-space)' }}
+            className="text-sm transition-all"
+            style={{
+              fontFamily: 'var(--font-space)',
+              color: item.done ? theme.textDim : theme.textSecondary,
+              textDecoration: item.done ? 'line-through' : 'none',
+            }}
           >
             {item.label}
           </span>
@@ -169,10 +172,10 @@ function EnergyBar({ level }: { level: number }) {
             style={{
               backgroundColor: active
                 ? level >= 8
-                  ? '#00FFC6'
+                  ? theme.accentGreen
                   : level >= 5
-                  ? '#7FDBFF'
-                  : '#8B5CF6'
+                  ? theme.accentCyan
+                  : theme.accentPurple
                 : theme.timelineLine,
             }}
           />
@@ -188,7 +191,7 @@ function EnergyBar({ level }: { level: number }) {
         <span
           className="text-[0.6rem] tracking-[0.2em] uppercase"
           style={{
-            color: level >= 8 ? '#00FFC6' : level >= 5 ? '#7FDBFF' : '#8B5CF6',
+            color: level >= 8 ? theme.accentGreen : level >= 5 ? theme.accentCyan : theme.accentPurple,
             fontFamily: 'var(--font-space)',
           }}
         >
@@ -246,6 +249,8 @@ function FocusTimer() {
 
   const modeLabel = mode === 'focus' ? 'Focus' : 'Break';
   const startLabel = isRunning ? 'Pause' : time <= 0 ? 'Reset' : 'Start';
+  const focusColor = mode === 'focus' ? theme.accentGreen : theme.accentPurple;
+  const focusColorHalf = mode === 'focus' ? theme.accentGreen + '80' : theme.accentPurple + '80';
 
   return (
     <div className="flex flex-col items-center gap-4">
@@ -264,7 +269,7 @@ function FocusTimer() {
             cy="60"
             r="54"
             fill="none"
-            stroke={mode === 'focus' ? '#00FFC6' : '#8B5CF6'}
+            stroke={focusColor}
             strokeWidth="2"
             strokeLinecap="round"
             strokeDasharray={circumference}
@@ -282,7 +287,7 @@ function FocusTimer() {
           <span
             className="text-[0.55rem] tracking-[0.25em] uppercase mt-1"
             style={{
-              color: mode === 'focus' ? 'rgba(0,255,198,0.5)' : 'rgba(139,92,246,0.5)',
+              color: focusColorHalf,
               fontFamily: 'var(--font-space)',
             }}
           >
@@ -292,26 +297,59 @@ function FocusTimer() {
       </div>
 
       <div className="flex gap-3">
-        <button
+        <TimerButton
+          label={startLabel}
+          accentColor={theme.accentGreen}
+          theme={theme}
           onClick={toggle}
-          className="px-5 py-1.5 rounded-full text-xs tracking-[0.2em] uppercase
-            border border-white/10 hover:border-accent-green/40 transition-all duration-300
-            text-white/50 hover:text-accent-green bg-white/[0.02] hover:bg-accent-green/[0.05]"
-          style={{ fontFamily: 'var(--font-space)' }}
-        >
-          {startLabel}
-        </button>
-        <button
+        />
+        <TimerButton
+          label="Switch"
+          accentColor={theme.accentPurple}
+          theme={theme}
           onClick={switchMode}
-          className="px-5 py-1.5 rounded-full text-xs tracking-[0.2em] uppercase
-            border border-white/10 hover:border-accent-purple/40 transition-all duration-300
-            text-white/50 hover:text-accent-purple bg-white/[0.02] hover:bg-accent-purple/[0.05]"
-          style={{ fontFamily: 'var(--font-space)' }}
-        >
-          Switch
-        </button>
+        />
       </div>
     </div>
+  );
+}
+
+function TimerButton({
+  label,
+  accentColor,
+  theme,
+  onClick,
+}: {
+  label: string;
+  accentColor: string;
+  theme: ReturnType<typeof import('@/contexts/ThemeContext').useTheme> extends infer T ? T : any;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className="px-5 py-1.5 rounded-full text-xs tracking-[0.2em] uppercase transition-all duration-300"
+      style={{
+        fontFamily: 'var(--font-space)',
+        color: theme.focusBtnText,
+        borderColor: theme.focusBtnBorder,
+        backgroundColor: theme.focusBtnBg,
+        borderWidth: '1px',
+        borderStyle: 'solid',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = accentColor + '66';
+        e.currentTarget.style.color = accentColor;
+        e.currentTarget.style.backgroundColor = accentColor + '0d';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = theme.focusBtnBorder;
+        e.currentTarget.style.color = theme.focusBtnText;
+        e.currentTarget.style.backgroundColor = theme.focusBtnBg;
+      }}
+    >
+      {label}
+    </button>
   );
 }
 
@@ -341,7 +379,7 @@ export default function TodaySection() {
         transition={{ duration: 0.6 }}
         className="flex items-center gap-4 mb-16"
       >
-        <div className="w-8 h-px bg-white/15" />
+        <div className="w-8 h-px" style={{ backgroundColor: theme.dividerLine }} />
         <h2
           className="cinematic-title text-3xl tracking-[0.15em]"
           style={{ fontFamily: 'var(--font-bebas)' }}
@@ -364,7 +402,7 @@ export default function TodaySection() {
             {today.currentMission}
           </p>
           <div className="mt-4 flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-accent-green pulse-dot" />
+            <div className="w-1.5 h-1.5 rounded-full pulse-dot" style={{ backgroundColor: theme.accentGreen }} />
             <span
               className="text-xs tracking-[0.15em]"
               style={{ color: theme.textDim, fontFamily: 'var(--font-space)' }}

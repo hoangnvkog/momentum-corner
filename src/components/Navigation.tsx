@@ -79,7 +79,7 @@ export default function Navigation({ isNight, onToggleNight }: Props) {
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="flex items-center gap-2 group"
           >
-            <div className="w-1.5 h-1.5 rounded-full bg-accent-green transition-all duration-500 group-hover:shadow-[0_0_8px_rgba(0,255,198,0.6)]" />
+            <div className="w-1.5 h-1.5 rounded-full transition-all duration-500" style={{ backgroundColor: theme.accentGreen, boxShadow: `0 0 8px ${theme.accentGreen}99` }} />
             <span
               className={`text-xs tracking-[0.25em] uppercase transition-colors duration-500 ${navTextColor}`}
               style={{ fontFamily: 'var(--font-space)' }}

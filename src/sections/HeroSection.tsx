@@ -153,7 +153,7 @@ export default function HeroSection({ onEnter }: { onEnter: () => void }) {
             }}
           >
             You Are Still{' '}
-            <span className="text-accent-green" style={{ WebkitTextFillColor: '#00FFC6' }}>Becoming</span>
+            <span style={{ WebkitTextFillColor: theme.accentGreen }}>Becoming</span>
           </h1>
         </motion.div>
 
