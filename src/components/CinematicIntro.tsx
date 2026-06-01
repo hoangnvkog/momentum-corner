@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 /* ==================================================
    CINEMATIC INTRO — plays once on first page load
@@ -9,6 +10,8 @@ import { useEffect, useState } from 'react';
    ================================================== */
 export default function CinematicIntro({ onComplete }: { onComplete: () => void }) {
   const [phase, setPhase] = useState(0); // 0=black, 1=line, 2=text, 3=done
+  const theme = useTheme();
+  const isDark = theme.textPrimary.startsWith('rgba(255');
 
   useEffect(() => {
     const t1 = setTimeout(() => setPhase(1), 800);    // Show line
@@ -31,8 +34,10 @@ export default function CinematicIntro({ onComplete }: { onComplete: () => void 
           initial={{ opacity: 1 }}
           animate={{ opacity: phase >= 2 ? 0 : 1 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center"
-        >
+          className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center`}
+          style={{
+            backgroundColor: isDark ? '#000' : '#FAFAFA',
+          }}>
           {/* Animated horizontal line */}
           <motion.div
             initial={{ scaleX: 0, opacity: 0 }}
@@ -52,7 +57,7 @@ export default function CinematicIntro({ onComplete }: { onComplete: () => void 
             className="text-sm uppercase tracking-widest"
             style={{
               fontFamily: 'var(--font-space)',
-              color: 'rgba(255,255,255,0.5)',
+              color: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)',
             }}
           >
             Momentum Corner

@@ -2,13 +2,22 @@
 
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '@/contexts/ThemeContext';
 
 /* ==================================================
    PARTICLE FIELD — floating light particles
    Creates depth and atmosphere in the hero section
    ================================================== */
 export default function ParticleField({ count = 30 }: { count?: number }) {
+  const theme = useTheme();
+  const isDark = theme.textPrimary.startsWith('rgba(255');
+
   const particles = useMemo(() => {
+    // In dark mode: white-ish particles with cyan glow
+    // In light mode: dark-ish particles with green accent glow
+    const particleColor = isDark ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.3)';
+    const glowColor = isDark ? 'rgba(0,255,198,0.3)' : 'rgba(0,184,148,0.2)';
+
     return Array.from({ length: count }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
@@ -17,8 +26,10 @@ export default function ParticleField({ count = 30 }: { count?: number }) {
       duration: 4 + Math.random() * 8,
       delay: Math.random() * 5,
       opacity: 0.1 + Math.random() * 0.3,
+      color: particleColor,
+      glow: glowColor,
     }));
-  }, [count]);
+  }, [count, isDark]);
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -31,8 +42,8 @@ export default function ParticleField({ count = 30 }: { count?: number }) {
             top: `${p.y}%`,
             width: p.size,
             height: p.size,
-            backgroundColor: 'rgba(255,255,255,0.8)',
-            boxShadow: `0 0 ${p.size * 3}px rgba(0,255,198,0.3)`,
+            backgroundColor: p.color,
+            boxShadow: `0 0 ${p.size * 3}px ${p.glow}`,
           }}
           animate={{
             y: [0, -15 - Math.random() * 20, 0],
